@@ -38,7 +38,13 @@ def OrbitalStars(pattern: string, flags: string, orbit: number): list<list<numbe
     var star = searchpos(pattern, flags, orbit)
     while star[0] != 0
         stars->add(star)
-        const first = $'\%>{star[1]}c'
+        var line = getline(orbit)
+        var match_text = matchstr(line, pattern, star[1] - 1)
+        if empty(match_text)
+            break
+        endif
+        const next_col = star[1] + strlen(match_text) - 1
+        const first = $'\%>{next_col}c'
         star = searchpos(first .. pattern, flags, orbit)
     endwhile
     return stars
